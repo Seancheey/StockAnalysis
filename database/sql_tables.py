@@ -1,13 +1,13 @@
 from sqlalchemy.schema import Column, ForeignKey
-from sqlalchemy.types import VARCHAR, INTEGER, DECIMAL
-from database.settings import Base
+from sqlalchemy.types import VARCHAR, INTEGER, DECIMAL, DATE
+from database.utils import Base
 
 _MONEY_TYPE = DECIMAL(10, 2)
 
 
 class ExchangeMarkets(Base):
     __tablename__ = "exchange_markets"
-    exchange_name = Column(VARCHAR(10), primary_key=True)
+    exchange = Column(VARCHAR(10), primary_key=True)
 
 
 class Industrys(Base):
@@ -23,10 +23,11 @@ class Areas(Base):
 class CNStocks(Base):
     __tablename__ = "stocks"
     code = Column(VARCHAR(10), primary_key=True)
-    exchange = Column(VARCHAR(10), ForeignKey(ExchangeMarkets.exchange_name), primary_key=True)
+    exchange = Column(VARCHAR(10), ForeignKey(ExchangeMarkets.exchange), primary_key=True)
     full_name = Column(VARCHAR(100), nullable=False)
-    industry = Column(VARCHAR(20), ForeignKey(Industrys.industry), nullable=False)
-    area = Column(VARCHAR(50), ForeignKey(Areas.area), nullable=False)
+    industry = Column(VARCHAR(20), ForeignKey(Industrys.industry))
+    area = Column(VARCHAR(50), ForeignKey(Areas.area))
+    list_date = Column(DATE)
 
 
 class DailyPriceSummaries(Base):
