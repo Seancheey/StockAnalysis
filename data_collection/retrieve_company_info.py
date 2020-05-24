@@ -1,7 +1,7 @@
-from data_collection.utils import pro_api, ts_date_to_sql
+from data_collection.utils import pro_api, ts_date_to_sql, unique_of
 from data_collection.pipeline import Pipeline, transform
 from database.sql_tables import Industrys, CNStocks, Areas, ExchangeMarkets
-from database.utils import insert_dataframe, unique_of
+from database.utils import insert_dataframe
 
 
 def retrieve_company_info():

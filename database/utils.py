@@ -13,12 +13,9 @@ def table_of(table_base: Base) -> Table:
     return table_base.__table__
 
 
-def unique_of(df: DataFrame, col_name: str) -> DataFrame:
-    return df.groupby(col_name).first().reset_index()
-
-
-def insert_dataframe(df: DataFrame, table_base: Base):
+def insert_dataframe(df: DataFrame, table_base: Base, duplicate_update=True):
     with engine.connect() as connection:
         for i, row in df.iterrows():
-            statement = insert(table_of(table_base)).values(row).on_duplicate_key_update(row.to_dict())
+            statement = insert(table_of(table_base)).values(row).on_duplicate_key_update(
+                row.to_dict() if duplicate_update else {})
             connection.execute(statement)
