@@ -10,7 +10,7 @@ class ExchangeMarkets(Base):
     exchange = Column(VARCHAR(10), primary_key=True)
 
 
-class Industrys(Base):
+class Industry(Base):
     __tablename__ = "industry"
     industry = Column(VARCHAR(20), primary_key=True)
 
@@ -20,20 +20,20 @@ class Areas(Base):
     area = Column(VARCHAR(50), primary_key=True)
 
 
-class CNStocks(Base):
+class Stocks(Base):
     __tablename__ = "stocks"
     code = Column(VARCHAR(10), primary_key=True)
     exchange = Column(VARCHAR(10), ForeignKey(ExchangeMarkets.exchange), primary_key=True)
     full_name = Column(VARCHAR(100), nullable=False)
-    industry = Column(VARCHAR(20), ForeignKey(Industrys.industry))
+    industry = Column(VARCHAR(20), ForeignKey(Industry.industry))
     area = Column(VARCHAR(50), ForeignKey(Areas.area))
     list_date = Column(DATE)
 
 
 class DailyPriceSummaries(Base):
     __tablename__ = "daily_price_summaries"
-    code = Column(VARCHAR(10), ForeignKey(CNStocks.code), primary_key=True)
-    exchange = Column(VARCHAR(10), ForeignKey(CNStocks.exchange), primary_key=True)
+    code = Column(VARCHAR(10), ForeignKey(Stocks.code), primary_key=True)
+    exchange = Column(VARCHAR(10), ForeignKey(Stocks.exchange), primary_key=True)
     open = Column(MONEY, nullable=False)
     close = Column(MONEY, nullable=False)
     high = Column(MONEY, nullable=False)
