@@ -10,8 +10,9 @@ def retrieve_company_info():
     industry_df = unique_of(transform(df, [Pipeline('industry', Industry.industry.key)]), Industry.industry.key)
     insert_dataframe(industry_df, Industry)
 
-    _exchange_pipeline = Pipeline('ts_code', ExchangeMarkets.exchange.key, lambda x: x.split('.')[-1])
-    exchange_df = unique_of(transform(df, [_exchange_pipeline]), ExchangeMarkets.exchange.key)
+    exchange_df = unique_of(transform(df, [
+        Pipeline('ts_code', ExchangeMarkets.exchange.key, lambda x: x.split('.')[-1]),
+    ]), ExchangeMarkets.exchange.key)
     insert_dataframe(exchange_df, ExchangeMarkets)
 
     areas_df = unique_of(transform(df, [Pipeline('area', Areas.area.key)]), Areas.area.key)
@@ -20,7 +21,7 @@ def retrieve_company_info():
     stocks_df = transform(df, [
         Pipeline('symbol', Stocks.code.key),
         Pipeline('name', Stocks.full_name.key),
-        _exchange_pipeline,
+        Pipeline('ts_code', Stocks.exchange.key, lambda x: x.split('.')[-1]),
         Pipeline('list_date', Stocks.list_date.key, ts_date_to_sql)
     ], preserve_list=['industry', 'area'])
     insert_dataframe(stocks_df, Stocks)
