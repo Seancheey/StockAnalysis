@@ -1,32 +1,29 @@
 from data_collection.utils import pro_api, ts_date_to_sql
 from data_collection.pipeline import Pipeline, transform
 from database.sql_tables import Industrys, CNStocks, Areas, ExchangeMarkets
-from database.utils import insert_dataframe, table_of, unique_of
-
-_exchange_pipeline = Pipeline('ts_code', 'exchange', lambda x: x.split('.')[-1])
+from database.utils import insert_dataframe, unique_of
 
 
 def retrieve_company_info():
-    api = pro_api()
+    df = pro_api().stock_basic()
 
-    df = api.stock_basic()
+    industry_df = unique_of(transform(df, [Pipeline('industry', Industrys.industry.key)]), Industrys.industry.key)
+    insert_dataframe(industry_df, Industrys)
 
-    industry_df = unique_of(transform(df, [Pipeline('industry', 'industry')]), 'industry')
-    insert_dataframe(industry_df, table_of(Industrys))
+    _exchange_pipeline = Pipeline('ts_code', ExchangeMarkets.exchange.key, lambda x: x.split('.')[-1])
+    exchange_df = unique_of(transform(df, [_exchange_pipeline]), ExchangeMarkets.exchange.key)
+    insert_dataframe(exchange_df, ExchangeMarkets)
 
-    exchange_df = unique_of(transform(df, [_exchange_pipeline]), 'exchange')
-    insert_dataframe(exchange_df, table_of(ExchangeMarkets))
-
-    areas_df = unique_of(transform(df, [Pipeline('area', 'area')]), 'area')
-    insert_dataframe(areas_df, table_of(Areas))
+    areas_df = unique_of(transform(df, [Pipeline('area', Areas.area.key)]), Areas.area.key)
+    insert_dataframe(areas_df, Areas)
 
     stocks_df = transform(df, [
-        Pipeline('symbol', 'code'),
-        Pipeline('name', 'full_name'),
+        Pipeline('symbol', CNStocks.code.key),
+        Pipeline('name', CNStocks.full_name.key),
         _exchange_pipeline,
-        Pipeline('list_date', 'list_date', ts_date_to_sql)
+        Pipeline('list_date', CNStocks.list_date.key, ts_date_to_sql)
     ], preserve_list=['industry', 'area'])
-    insert_dataframe(stocks_df, table_of(CNStocks))
+    insert_dataframe(stocks_df, CNStocks)
 
 
 if __name__ == "__main__":

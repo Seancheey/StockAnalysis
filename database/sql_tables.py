@@ -2,7 +2,7 @@ from sqlalchemy.schema import Column, ForeignKey
 from sqlalchemy.types import VARCHAR, INTEGER, DECIMAL, DATE
 from database.utils import Base
 
-_MONEY_TYPE = DECIMAL(10, 2)
+MONEY = DECIMAL(10, 2)
 
 
 class ExchangeMarkets(Base):
@@ -34,16 +34,16 @@ class DailyPriceSummaries(Base):
     __tablename__ = "daily_price_summaries"
     code = Column(VARCHAR(10), ForeignKey(CNStocks.code), primary_key=True)
     exchange = Column(VARCHAR(10), ForeignKey(CNStocks.exchange), primary_key=True)
-    open = Column(_MONEY_TYPE, nullable=False)
-    close = Column(_MONEY_TYPE, nullable=False)
-    high = Column(_MONEY_TYPE, nullable=False)
-    low = Column(_MONEY_TYPE, nullable=False)
+    open = Column(MONEY, nullable=False)
+    close = Column(MONEY, nullable=False)
+    high = Column(MONEY, nullable=False)
+    low = Column(MONEY, nullable=False)
     # 昨日收盘价
-    last_day_close = Column(_MONEY_TYPE, nullable=False)
+    last_day_close = Column(MONEY, nullable=False)
     # 成交量
     volume = Column(INTEGER, nullable=False)
     # 成交额
-    turnover = Column(_MONEY_TYPE, nullable=False)
+    turnover = Column(MONEY, nullable=False)
 
 
 METADATA = Base.metadata
