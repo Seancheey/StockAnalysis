@@ -1,8 +1,13 @@
 from sqlalchemy.schema import Column, ForeignKey
-from sqlalchemy.types import VARCHAR, INTEGER, DECIMAL, DATE
+from sqlalchemy.dialects.mysql import INTEGER, DECIMAL, DATE
+from sqlalchemy.dialects import mysql
 from database.utils import Base
 
 MONEY = DECIMAL(10, 2)
+
+
+def VARCHAR(size):
+    return mysql.VARCHAR(size, charset='utf8mb4')
 
 
 class ExchangeMarkets(Base):
