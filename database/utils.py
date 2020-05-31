@@ -16,6 +16,8 @@ def table_of(table_base: Base) -> Table:
 def insert_dataframe(df: DataFrame, table_base: Base, duplicate_update=True):
     with engine.connect() as connection:
         for i, row in df.iterrows():
-            statement = insert(table_of(table_base)).values(row).on_duplicate_key_update(
-                row.to_dict() if duplicate_update else {})
-            connection.execute(statement)
+            statement = insert(table_of(table_base)).values(row)
+            if duplicate_update:
+                connection.execute(statement.on_duplicate_key_update(row.to_dict()))
+            else:
+                connection.execute(statement.prefix_with("IGNORE"))
