@@ -39,6 +39,7 @@ class DailyPriceSummaries(Base):
     __tablename__ = "daily_price_summaries"
     code = Column(VARCHAR(10), ForeignKey(Stocks.code), primary_key=True)
     exchange = Column(VARCHAR(10), ForeignKey(Stocks.exchange), primary_key=True)
+    date = Column(DATE, primary_key=True)
     open = Column(MONEY, nullable=False)
     close = Column(MONEY, nullable=False)
     high = Column(MONEY, nullable=False)
