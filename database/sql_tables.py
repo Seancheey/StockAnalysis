@@ -1,9 +1,9 @@
 from sqlalchemy.schema import Column, ForeignKey
-from sqlalchemy.dialects.mysql import INTEGER, DECIMAL, DATE
+from sqlalchemy.dialects.mysql import INTEGER, DECIMAL, DATE, TIMESTAMP, TIME
 from sqlalchemy.dialects import mysql
 from database.utils import Base
 
-MONEY = DECIMAL(10, 2)
+MONEY = DECIMAL(16, 4)
 
 
 def VARCHAR(size):
@@ -50,6 +50,19 @@ class DailyPriceSummaries(Base):
     volume = Column(INTEGER, nullable=False)
     # 成交额
     turnover = Column(MONEY, nullable=False)
+
+
+class IntervalPriceSummary(Base):
+    __tablename__ = "interval_price_summaries"
+    code = Column(VARCHAR(10), ForeignKey(Stocks.code), primary_key=True)
+    exchange = Column(VARCHAR(10), ForeignKey(Stocks.exchange), primary_key=True)
+    time = Column(TIMESTAMP, primary_key=True)
+    interval_len = Column(TIME, primary_key=True)
+    open = Column(MONEY, nullable=False)
+    close = Column(MONEY, nullable=False)
+    high = Column(MONEY, nullable=False)
+    low = Column(MONEY, nullable=False)
+    volume = Column(INTEGER)
 
 
 METADATA = Base.metadata
