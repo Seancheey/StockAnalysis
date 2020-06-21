@@ -8,6 +8,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { StockSelectorComponent } from './stock-selector/stock-selector.component';
 import {MatSelectModule} from "@angular/material/select";
 import {MatFormFieldModule} from "@angular/material/form-field";
+import {StockDatabaseService} from "./service/stock-database.service";
 
 @NgModule({
   declarations: [
@@ -22,7 +23,7 @@ import {MatFormFieldModule} from "@angular/material/form-field";
     MatSelectModule,
     MatFormFieldModule,
   ],
-  providers: [],
+  providers: [StockDatabaseService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

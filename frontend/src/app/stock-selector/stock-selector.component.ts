@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import {Stock} from "../service/database-entity/Stock";
+import {StockDatabaseService} from "../service/stock-database.service";
 
 @Component({
   selector: 'app-stock-selector',
@@ -6,11 +8,14 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./stock-selector.component.scss']
 })
 export class StockSelectorComponent implements OnInit {
-  stocks: String[] = ["a", "b"];
+  stocks: Stock[];
 
-  constructor() { }
+  constructor(private stockDatabaseService: StockDatabaseService) { }
 
   ngOnInit(): void {
+    this.stockDatabaseService.getStocks().then(stocks => {
+      this.stocks = stocks
+    })
   }
 
 }
