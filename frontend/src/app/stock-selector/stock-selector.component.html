@@ -1,0 +1,11 @@
+<h4>选择股票</h4>
+<mat-form-field>
+  <mat-label>
+    测试
+  </mat-label>
+  <mat-select>
+    <mat-option *ngFor="let stock of stocks" [value]="stock">
+      {{stock}}
+    </mat-option>
+  </mat-select>
+</mat-form-field>
