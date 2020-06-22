@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import {Component} from '@angular/core';
+import {Stock} from "./service/database-entity/Stock";
 
 @Component({
   selector: 'app-root',
@@ -6,5 +7,9 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  title = 'frontend';
+  selectedStock: Stock | null;
+
+  stockChanged(stock: Stock) {
+    this.selectedStock = stock
+  }
 }

@@ -4,5 +4,6 @@
   </span>
 </mat-toolbar>
 <span class="main-content">
-  <app-stock-selector></app-stock-selector>
+  <app-stock-selector (selectedStock)="stockChanged($event)"></app-stock-selector>
+  <app-stock-viewer [selectedStock]="selectedStock"></app-stock-viewer>
 </span>

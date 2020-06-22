@@ -10,11 +10,13 @@ import {MatSelectModule} from "@angular/material/select";
 import {MatFormFieldModule} from "@angular/material/form-field";
 import {StockDatabaseService} from "./service/stock-database.service";
 import {HttpClientJsonpModule, HttpClientModule} from "@angular/common/http";
+import { StockViewerComponent } from './stock-viewer/stock-viewer.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     StockSelectorComponent,
+    StockViewerComponent,
   ],
   imports: [
     BrowserModule,

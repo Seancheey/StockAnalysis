@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import {Stock} from "../service/database-entity/Stock";
 import {StockDatabaseService} from "../service/stock-database.service";
 import {Observable} from "rxjs";
+import {MatSelectChange} from "@angular/material/select";
 
 @Component({
   selector: 'app-stock-selector',
@@ -10,6 +11,7 @@ import {Observable} from "rxjs";
 })
 export class StockSelectorComponent implements OnInit {
   stocks: Observable<Stock[]>;
+  @Output() selectedStock: EventEmitter<Stock|null> = new EventEmitter();
 
   constructor(private stockDatabaseService: StockDatabaseService) { }
 
@@ -17,4 +19,7 @@ export class StockSelectorComponent implements OnInit {
     this.stocks = this.stockDatabaseService.getStocks()
   }
 
+  changeSelection(change: MatSelectChange) {
+    this.selectedStock.emit(change.value)
+  }
 }

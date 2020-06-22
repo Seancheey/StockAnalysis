@@ -21,6 +21,7 @@
     "@angular/platform-browser": "~9.1.11",
     "@angular/platform-browser-dynamic": "~9.1.11",
     "@angular/router": "~9.1.11",
+    "@syncfusion/ej2-angular-charts": "^18.1.57",
     "mysql": "^2.18.1",
     "protobufjs": "^6.9.0",
     "rxjs": "~6.5.4",
