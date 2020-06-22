@@ -4,7 +4,6 @@ import json
 from flask import Flask, request, current_app
 from backend import query
 from google.protobuf.json_format import MessageToJson
-
 app = Flask(__name__)
 
 
@@ -25,3 +24,14 @@ def support_jsonp(f):
 @support_jsonp
 def get_stocks():
     return MessageToJson(query.get_stocks())
+
+
+@app.route("/get_stock_hist")
+@support_jsonp
+def get_stock_hist():
+    code = request.args.get('code')
+    exchange = request.args.get('exchange')
+    if code and exchange:
+        return MessageToJson(query.get_stock_daily_history(exchange, code))
+    else:
+        return "", 405
