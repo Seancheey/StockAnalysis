@@ -1,0 +1,14 @@
+syntax = "proto3";
+
+message Stock {
+  string exchange = 1;
+  string code = 2;
+  string full_name = 3;
+  string industry = 4;
+  string area = 5;
+  int64 list_date = 6;
+}
+
+message StocksResponse {
+  repeated Stock stocks = 1;
+}
