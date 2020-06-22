@@ -1,1 +1,14 @@
-<span *ngIf="selectedStock"> 选择了: {{selectedStock.full_name}} {{selectedStock.exchange}}{{selectedStock.code}}</span>
+<span class="main-content">
+  <h4>选择股票</h4>
+  <mat-form-field>
+    <mat-label>
+      股票名
+    </mat-label>
+    <mat-select (selectionChange)="changeSelection($event)">
+      <mat-option *ngFor="let stock of stocks | async" [value]="stock">
+        {{stock.full_name}}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+  <span *ngIf="selectedStock | async as selected"> 选择了{{selected.full_name}}</span>
+</span>

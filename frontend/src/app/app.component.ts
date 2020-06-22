@@ -1,5 +1,4 @@
 import {Component} from '@angular/core';
-import {Stock} from "./service/database-entity/Stock";
 
 @Component({
   selector: 'app-root',
@@ -7,9 +6,4 @@ import {Stock} from "./service/database-entity/Stock";
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  selectedStock: Stock | null;
-
-  stockChanged(stock: Stock) {
-    this.selectedStock = stock
-  }
 }
