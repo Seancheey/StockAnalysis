@@ -9,6 +9,7 @@ import { StockSelectorComponent } from './stock-selector/stock-selector.componen
 import {MatSelectModule} from "@angular/material/select";
 import {MatFormFieldModule} from "@angular/material/form-field";
 import {StockDatabaseService} from "./service/stock-database.service";
+import {HttpClientJsonpModule, HttpClientModule} from "@angular/common/http";
 
 @NgModule({
   declarations: [
@@ -22,6 +23,8 @@ import {StockDatabaseService} from "./service/stock-database.service";
     BrowserAnimationsModule,
     MatSelectModule,
     MatFormFieldModule,
+    HttpClientModule,
+    HttpClientJsonpModule
   ],
   providers: [StockDatabaseService],
   bootstrap: [AppComponent]

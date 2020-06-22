@@ -1,4 +1,5 @@
 syntax = "proto3";
+package database.service;
 
 message Stock {
   string exchange = 1;

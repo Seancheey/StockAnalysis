@@ -4,7 +4,7 @@
     测试
   </mat-label>
   <mat-select>
-    <mat-option *ngFor="let stock of stocks" [value]="stock.exchange+stock.code">
+    <mat-option *ngFor="let stock of stocks | async" [value]="stock.exchange+stock.code">
       {{stock.full_name}}
     </mat-option>
   </mat-select>
