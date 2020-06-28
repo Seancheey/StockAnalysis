@@ -1,16 +1,16 @@
-import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import {BrowserModule} from '@angular/platform-browser';
+import {NgModule} from '@angular/core';
 
-import { AppRoutingModule } from './app-routing.module';
-import { AppComponent } from './app.component';
+import {AppRoutingModule} from './app-routing.module';
+import {AppComponent} from './app.component';
 import {MatToolbarModule} from '@angular/material/toolbar';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {MatSelectModule} from "@angular/material/select";
 import {MatFormFieldModule} from "@angular/material/form-field";
 import {StockDatabaseService} from "./service/stock-database.service";
 import {HttpClientJsonpModule, HttpClientModule} from "@angular/common/http";
-import { StockViewerComponent } from './stock-viewer/stock-viewer.component';
-import { Ng2GoogleChartsModule } from 'ng2-google-charts';
+import {StockViewerComponent} from './stock-viewer/stock-viewer.component';
+import {GoogleChartsModule} from "angular-google-charts";
 
 @NgModule({
   declarations: [
@@ -26,7 +26,7 @@ import { Ng2GoogleChartsModule } from 'ng2-google-charts';
     MatFormFieldModule,
     HttpClientModule,
     HttpClientJsonpModule,
-    Ng2GoogleChartsModule
+    GoogleChartsModule
   ],
   providers: [StockDatabaseService],
   bootstrap: [AppComponent]
