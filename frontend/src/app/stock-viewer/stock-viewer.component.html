@@ -5,10 +5,18 @@
       股票名
     </mat-label>
     <mat-select (selectionChange)="changeSelection($event)">
-      <mat-option *ngFor="let stock of stocks | async" [value]="stock">
-        {{stock.full_name}}
-      </mat-option>
+      <span *ngIf="stocks | async as stockOptions">
+        <mat-option *ngFor="let stock of stockOptions" [value]="stock">
+          {{stock.full_name}}
+        </mat-option>
+      </span>
     </mat-select>
   </mat-form-field>
-  <span *ngIf="selectedStock | async as selected"> 选择了{{selected.full_name}}</span>
+  <span *ngIf="selectedStock | async as selected">
+    选择了{{selected.full_name}}
+  </span>
+  <span *ngIf="prices | async as summaries">
+    <google-chart [data]="getGoogleChart() | async"></google-chart>
+    {{toGoogleChartData(summaries.slice(0,10)).join("\n")}}
+  </span>
 </span>

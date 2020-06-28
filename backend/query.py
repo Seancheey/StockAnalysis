@@ -13,9 +13,10 @@ def get_stocks() -> Stock_pb2.StocksResponse:
     return response
 
 
-def get_stock_daily_history(exchange: str, code: str) -> StockDailySummary_pb2.StockHistDailySummaries:
-    result = engine.execute(select([DailyPriceSummaries.__table__]).where(
-        DailyPriceSummaries.code == code and DailyPriceSummaries.exchange == exchange))
+def get_stock_daily_history(exchange: str, code: str, limit=100) -> StockDailySummary_pb2.StockHistDailySummaries:
+    sql = select([DailyPriceSummaries.__table__]).where(
+        DailyPriceSummaries.code == code and DailyPriceSummaries.exchange == exchange).limit(limit)
+    result = engine.execute(sql)
     response = StockDailySummary_pb2.StockHistDailySummaries(stock=Stock_pb2.Stock(code=code, exchange=exchange))
     for col in result:
         response.daily_summary.append(StockDailySummary_pb2.StockDailySummary(

@@ -10,6 +10,7 @@ import {MatFormFieldModule} from "@angular/material/form-field";
 import {StockDatabaseService} from "./service/stock-database.service";
 import {HttpClientJsonpModule, HttpClientModule} from "@angular/common/http";
 import { StockViewerComponent } from './stock-viewer/stock-viewer.component';
+import { Ng2GoogleChartsModule } from 'ng2-google-charts';
 
 @NgModule({
   declarations: [
@@ -24,7 +25,8 @@ import { StockViewerComponent } from './stock-viewer/stock-viewer.component';
     MatSelectModule,
     MatFormFieldModule,
     HttpClientModule,
-    HttpClientJsonpModule
+    HttpClientJsonpModule,
+    Ng2GoogleChartsModule
   ],
   providers: [StockDatabaseService],
   bootstrap: [AppComponent]
