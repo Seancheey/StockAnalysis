@@ -1,2 +1,5 @@
 .idea/
 node_modules/
+__pycache__/
+firebase-debug.log
+.firebase/
