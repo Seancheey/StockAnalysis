@@ -12,13 +12,16 @@
       </span>
     </mat-select>
   </mat-form-field>
-  <span *ngIf="selectedStock">
-    选择了{{selectedStock.full_name}}
+  <span *ngIf="selectedStock | async as selected">
+    选择了{{selected.full_name}}
   </span>
-  <span *ngIf="data">
+  <span *ngIf="data |async as syncedData">
     <google-chart
+      [data]="syncedData"
+      [dynamicResize]="true"
+      [options]="chartOptions"
       [columns]="columns"
-      [data]="data"
+      style="width: 90vw; height: 60vh;"
       [type]="chartType"
       title="股票图形"
     ></google-chart>
