@@ -1,0 +1,11 @@
+syntax = "proto3";
+package database.service;
+
+message StockPoint {
+  int32 stock_index = 1;
+  double stock_price = 2;
+}
+
+message StockPoints {
+  repeated StockPoint stock_points = 1;
+}

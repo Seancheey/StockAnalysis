@@ -1,9 +1,10 @@
 from pandas import DataFrame
-from sqlalchemy import create_engine
-from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import Table
-from database.settings import __sql_url, schema
+from sqlalchemy import create_engine
 from sqlalchemy.dialects.mysql import insert
+from sqlalchemy.ext.declarative import declarative_base
+
+from database.settings import __sql_url, schema
 
 engine = create_engine(__sql_url + schema)
 Base = declarative_base(bind=engine)
@@ -21,3 +22,4 @@ def insert_dataframe(df: DataFrame, table_base: Base, duplicate_update=True):
                 connection.execute(statement.on_duplicate_key_update(row.to_dict()))
             else:
                 connection.execute(statement.prefix_with("IGNORE"))
+

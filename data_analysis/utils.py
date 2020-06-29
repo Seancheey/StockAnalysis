@@ -1,5 +1,7 @@
 from pandas import DataFrame
 
+from database.sql_tables import DailyPriceSummaries
+
 
 def get_highest(df: DataFrame, col: str):
     """
@@ -36,9 +38,22 @@ def get_nth_high_after_highest(df: DataFrame, col: str, n: int = 1):
     num_left = None
     num_mid = None
     for i, num_right in enumerate(df[col][max_i:], max_i):
-        if num_mid and num_left and num_mid > num_left and num_mid > num_right and (not max_convex or num_mid > max_convex):
+        if num_mid and num_left and num_mid > num_left and num_mid > num_right and (
+                not max_convex or num_mid > max_convex):
             max_convex = num_mid
             max_convex_i = i - 1
         num_left = num_mid
         num_mid = num_right
     return max_convex, max_convex_i
+
+
+def cross_point(df: DataFrame, point1: tuple, point2: tuple) -> tuple:
+    price1, day1 = point1
+    price2, day2 = point2
+    day_diff = (price2 - price1) / (day2 - day1)
+    expected_price = price2
+    for i, row in df.iloc[day2 + 1:].iterrows():
+        expected_price += day_diff
+        if row[DailyPriceSummaries.high.key] > expected_price > row[DailyPriceSummaries.low.key]:
+            return expected_price, i
+    return 0, -1

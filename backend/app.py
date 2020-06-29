@@ -1,9 +1,10 @@
 from functools import wraps
 
-import json
 from flask import Flask, request, current_app
-from backend import query
 from google.protobuf.json_format import MessageToJson
+
+from backend import query
+
 app = Flask(__name__)
 
 
@@ -33,5 +34,16 @@ def get_stock_hist():
     exchange = request.args.get('exchange')
     if code and exchange:
         return MessageToJson(query.get_stock_daily_history(exchange, code))
+    else:
+        return "", 405
+
+
+@app.route("/get_stock_custom_strategy")
+@support_jsonp
+def get_stock_custom_strategy():
+    code = request.args.get('code')
+    exchange = request.args.get('exchange')
+    if code and exchange:
+        return MessageToJson(query.get_stock_high_2nd_high_cross_point(exchange, code))
     else:
         return "", 405
