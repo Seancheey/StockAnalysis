@@ -23,7 +23,10 @@
       [title]="selectedStock.full_name+' 股票图形'"
     ></google-chart>
   </span>
-  <span *ngIf="strategyPoints">
-    {{report}}
+  <span *ngIf="highestPoint">
+    最高点{{highestPoint.high}}元 {{formatDate(highestPoint.date)}}
+  </span>
+  <span *ngIf="secondHighestPoint">
+    第二高点{{secondHighestPoint.high}}元 {{formatDate(secondHighestPoint.date)}}
   </span>
 </span>

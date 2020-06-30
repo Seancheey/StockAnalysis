@@ -5,7 +5,6 @@ import {StockDatabaseService} from "../service/stock-database.service";
 import {MatSelectChange} from "@angular/material/select";
 import {StockDailySummary} from "../service/database-entity/StockDailySummary";
 import {ChartType, Row} from "angular-google-charts";
-import {StockPoint} from "../service/database-entity/StockPoint";
 
 @Component({
   selector: 'app-stock-viewer',
@@ -13,15 +12,23 @@ import {StockPoint} from "../service/database-entity/StockPoint";
   styleUrls: ['./stock-viewer.component.scss']
 })
 export class StockViewerComponent implements OnInit {
-  readonly columns = ["date", "低点", "开盘", "收盘", "高点"];
+  readonly columns: google.visualization.ColumnSpec[] = [
+    {type: "date", label: "日期"},
+    {type: "number", label: "低点"},
+    {type: "number", label: "开盘"},
+    {type: "number", label: "收盘"},
+    {type: "number", label: "高点"},
+    {type: "string", role: "tooltip"}
+  ];
   readonly chartType = ChartType.CandlestickChart;
   $stocks: Observable<Stock[]>;
-  strategyPoints: StockPoint[];
 
   selectedStock: Stock;
   chartOptions: Object;
   stockDailyPrices: StockDailySummary[];
   googleChartData: Row[];
+  highestPoint: StockDailySummary;
+  secondHighestPoint: StockDailySummary;
   report: string;
 
   @Output() selectedStockChange: EventEmitter<Stock | null> = new EventEmitter();
@@ -29,12 +36,23 @@ export class StockViewerComponent implements OnInit {
   constructor(private stockDatabaseService: StockDatabaseService) {
   }
 
-  private static toGoogleChartData(summaries: StockDailySummary[]): Row[] {
-    return summaries.map(summary => [summary.date, summary.low, summary.open, summary.close, summary.high]);
+  private static getHighAndSecondHigh(summaries: StockDailySummary[]): [StockDailySummary, StockDailySummary] {
+    const highestPoint = summaries.reduce((a, b) => a.high > b.high ? a : b)
+    let sortedRestData = summaries
+      .filter(val => val.date > highestPoint.date)
+      .sort((a, b) => a.date.getTime() - b.date.getTime())
+
+    for (let i = 1; i < sortedRestData.length - 1; i = i + 1) {
+      if (sortedRestData[i].high < sortedRestData[i - 1].high && sortedRestData[i].high < sortedRestData[i + 1].high) {
+        sortedRestData = sortedRestData.splice(i - sortedRestData.length)
+      }
+    }
+    const secondHighestPoint = sortedRestData.reduce((a, b) => a.high > b.high ? a : b)
+    return [highestPoint, secondHighestPoint]
   }
 
   private static formatDate(date: Date) {
-    return `${date.getFullYear()}年${date.getMonth()}月${date.getDay()}日`
+    return `${date.getFullYear()}年${date.getMonth() + 1}月${date.getDay()}日`
   }
 
   private static getChartOption(summaries: StockDailySummary[]): Object {
@@ -68,24 +86,46 @@ export class StockViewerComponent implements OnInit {
           min: summaries[summaries.length / 4].date,
           max: summaries[summaries.length * 3 / 4].date,
         }
-      }
+      },
+      tooltip: {
+        isHtml: true,
+      },
+      legend: 'none'
     };
+  }
+
+  formatDate(date: Date) {
+    return StockViewerComponent.formatDate(date)
+  }
+
+  async updateStockChart(stock: Stock) {
+    this.selectedStock = stock;
+    this.stockDailyPrices = await this.stockDatabaseService.getStockDailyHistory(stock).toPromise()
+    const list = StockViewerComponent.getHighAndSecondHigh(this.stockDailyPrices)
+    this.highestPoint = list[0]
+    this.secondHighestPoint = list[1]
+    this.googleChartData = this.generateChartData()
+    this.chartOptions = StockViewerComponent.getChartOption(this.stockDailyPrices)
+  }
+
+  private generateChartData(): Row[] {
+    return this.stockDailyPrices.map(summary => [
+      summary.date,
+      summary.low,
+      summary.open,
+      summary.close,
+      summary.high,
+      this.formatSummary(summary)
+    ]);
   }
 
   changeSelectedStock(change: MatSelectChange) {
     this.selectedStockChange.emit(change.value)
   }
 
-  async updateStockChart(stock: Stock) {
-    this.selectedStock = stock;
-    this.stockDailyPrices = await this.stockDatabaseService.getStockDailyHistory(stock).toPromise()
-    this.googleChartData = StockViewerComponent.toGoogleChartData(this.stockDailyPrices)
-    this.chartOptions = StockViewerComponent.getChartOption(this.stockDailyPrices)
-    this.strategyPoints = await this.stockDatabaseService.getStockStrategyPoint(stock).toPromise()
-    this.report = `
-      最高点：${this.strategyPoints[0].price}元
-      第二高点：${this.strategyPoints[1].price}元
-    `
+  private formatSummary(summary: StockDailySummary) {
+    const extra = summary.date == this.highestPoint.date ? "最高点" : (summary.date == this.secondHighestPoint.date) ? "第二高点" : "";
+    return `${StockViewerComponent.formatDate(summary.date)} ${extra}\n开盘:${summary.open} 收盘:${summary.close} 高点:${summary.high} 低点:${summary.low}`
   }
 
   ngOnInit(): void {
