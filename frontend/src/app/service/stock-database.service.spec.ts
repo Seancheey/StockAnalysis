@@ -1,8 +1,7 @@
-import { TestBed } from '@angular/core/testing';
+import {TestBed} from '@angular/core/testing';
 
-import { StockDatabaseService } from './stock-database.service';
+import {StockDatabaseService} from './stock-database.service';
 import {HttpClientJsonpModule, HttpClientModule} from "@angular/common/http";
-import {Stock} from "./database-entity/Stock";
 
 describe('StockDatabaseService', () => {
   let service: StockDatabaseService;
@@ -18,7 +17,11 @@ describe('StockDatabaseService', () => {
     expect(service).toBeTruthy();
   });
 
+  it('should connect to getStock', () => {
+    expectAsync(service.getStocks().toPromise()).toBeRejectedWith(jasmine.notEmpty());
+  });
+
   it('should return price', () => {
-    expectAsync(service.getStockDailyHistory(new Stock("000002","SZ", ""))).toBeResolvedTo(jasmine.notEmpty())
+
   })
 });

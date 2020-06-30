@@ -6,6 +6,7 @@ import {Observable, of} from "rxjs";
 import {switchMap} from "rxjs/operators";
 import {StockDailySummary} from "./database-entity/StockDailySummary";
 import {environment} from "../../environments/environment";
+import {StockPoint} from "./database-entity/StockPoint";
 
 @Injectable({
   providedIn: 'root'
@@ -45,5 +46,13 @@ export class StockDatabaseService {
         return of(summaries)
       })
     )
+  }
+
+  getStockStrategyPoint(stock: Stock): Observable<StockPoint[]> {
+    return this.httpClient.jsonp(`${environment.server_url}/get_stock_custom_strategy?exchange=${stock.exchange}&code=${stock.code}`, "callback").pipe(
+      switchMap(obj => {
+        return of(obj["stockPoints"].map(sub => new StockPoint(sub["stockIndex"], sub["stockPrice"])));
+      })
+    );
   }
 }
