@@ -2,7 +2,7 @@ from functools import wraps
 
 from flask import Flask, request, current_app
 from google.protobuf.json_format import MessageToJson
-
+from proto.Stock_pb2 import Stock
 from backend import query
 
 app = Flask(__name__)

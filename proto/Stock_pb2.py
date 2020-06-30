@@ -17,10 +17,10 @@ _sym_db = _symbol_database.Default()
 
 DESCRIPTOR = _descriptor.FileDescriptor(
   name='proto/Stock.proto',
-  package='database.service',
+  package='',
   syntax='proto3',
   serialized_options=None,
-  serialized_pb=_b('\n\x11proto/Stock.proto\x12\x10\x64\x61tabase.service\"m\n\x05Stock\x12\x10\n\x08\x65xchange\x18\x01 \x01(\t\x12\x0c\n\x04\x63ode\x18\x02 \x01(\t\x12\x11\n\tfull_name\x18\x03 \x01(\t\x12\x10\n\x08industry\x18\x04 \x01(\t\x12\x0c\n\x04\x61rea\x18\x05 \x01(\t\x12\x11\n\tlist_date\x18\x06 \x01(\x03\"9\n\x0eStocksResponse\x12\'\n\x06stocks\x18\x01 \x03(\x0b\x32\x17.database.service.Stockb\x06proto3')
+  serialized_pb=_b('\n\x11proto/Stock.proto\"m\n\x05Stock\x12\x10\n\x08\x65xchange\x18\x01 \x01(\t\x12\x0c\n\x04\x63ode\x18\x02 \x01(\t\x12\x11\n\tfull_name\x18\x03 \x01(\t\x12\x10\n\x08industry\x18\x04 \x01(\t\x12\x0c\n\x04\x61rea\x18\x05 \x01(\t\x12\x11\n\tlist_date\x18\x06 \x01(\x03\"(\n\x0eStocksResponse\x12\x16\n\x06stocks\x18\x01 \x03(\x0b\x32\x06.Stock\"\x93\x01\n\x11StockDailySummary\x12\x0c\n\x04\x64\x61te\x18\x01 \x01(\x03\x12\x0c\n\x04open\x18\x02 \x01(\x01\x12\r\n\x05\x63lose\x18\x03 \x01(\x01\x12\x0c\n\x04high\x18\x04 \x01(\x01\x12\x0b\n\x03low\x18\x05 \x01(\x01\x12\x16\n\x0elast_day_close\x18\x06 \x01(\x01\x12\x0e\n\x06volume\x18\x07 \x01(\x01\x12\x10\n\x08turnover\x18\x08 \x01(\x01\"[\n\x17StockHistDailySummaries\x12\x15\n\x05stock\x18\x01 \x01(\x0b\x32\x06.Stock\x12)\n\rdaily_summary\x18\x02 \x03(\x0b\x32\x12.StockDailySummary\"6\n\nStockPoint\x12\x13\n\x0bstock_index\x18\x01 \x01(\x05\x12\x13\n\x0bstock_price\x18\x02 \x01(\x01\"0\n\x0bStockPoints\x12!\n\x0cstock_points\x18\x01 \x03(\x0b\x32\x0b.StockPointb\x06proto3')
 )
 
 
@@ -28,48 +28,48 @@ DESCRIPTOR = _descriptor.FileDescriptor(
 
 _STOCK = _descriptor.Descriptor(
   name='Stock',
-  full_name='database.service.Stock',
+  full_name='Stock',
   filename=None,
   file=DESCRIPTOR,
   containing_type=None,
   fields=[
     _descriptor.FieldDescriptor(
-      name='exchange', full_name='database.service.Stock.exchange', index=0,
+      name='exchange', full_name='Stock.exchange', index=0,
       number=1, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='code', full_name='database.service.Stock.code', index=1,
+      name='code', full_name='Stock.code', index=1,
       number=2, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='full_name', full_name='database.service.Stock.full_name', index=2,
+      name='full_name', full_name='Stock.full_name', index=2,
       number=3, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='industry', full_name='database.service.Stock.industry', index=3,
+      name='industry', full_name='Stock.industry', index=3,
       number=4, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='area', full_name='database.service.Stock.area', index=4,
+      name='area', full_name='Stock.area', index=4,
       number=5, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='list_date', full_name='database.service.Stock.list_date', index=5,
+      name='list_date', full_name='Stock.list_date', index=5,
       number=6, type=3, cpp_type=2, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
@@ -87,20 +87,20 @@ _STOCK = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=39,
-  serialized_end=148,
+  serialized_start=21,
+  serialized_end=130,
 )
 
 
 _STOCKSRESPONSE = _descriptor.Descriptor(
   name='StocksResponse',
-  full_name='database.service.StocksResponse',
+  full_name='StocksResponse',
   filename=None,
   file=DESCRIPTOR,
   containing_type=None,
   fields=[
     _descriptor.FieldDescriptor(
-      name='stocks', full_name='database.service.StocksResponse.stocks', index=0,
+      name='stocks', full_name='StocksResponse.stocks', index=0,
       number=1, type=11, cpp_type=10, label=3,
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
@@ -118,28 +118,250 @@ _STOCKSRESPONSE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=150,
-  serialized_end=207,
+  serialized_start=132,
+  serialized_end=172,
+)
+
+
+_STOCKDAILYSUMMARY = _descriptor.Descriptor(
+  name='StockDailySummary',
+  full_name='StockDailySummary',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='date', full_name='StockDailySummary.date', index=0,
+      number=1, type=3, cpp_type=2, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='open', full_name='StockDailySummary.open', index=1,
+      number=2, type=1, cpp_type=5, label=1,
+      has_default_value=False, default_value=float(0),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='close', full_name='StockDailySummary.close', index=2,
+      number=3, type=1, cpp_type=5, label=1,
+      has_default_value=False, default_value=float(0),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='high', full_name='StockDailySummary.high', index=3,
+      number=4, type=1, cpp_type=5, label=1,
+      has_default_value=False, default_value=float(0),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='low', full_name='StockDailySummary.low', index=4,
+      number=5, type=1, cpp_type=5, label=1,
+      has_default_value=False, default_value=float(0),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='last_day_close', full_name='StockDailySummary.last_day_close', index=5,
+      number=6, type=1, cpp_type=5, label=1,
+      has_default_value=False, default_value=float(0),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='volume', full_name='StockDailySummary.volume', index=6,
+      number=7, type=1, cpp_type=5, label=1,
+      has_default_value=False, default_value=float(0),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='turnover', full_name='StockDailySummary.turnover', index=7,
+      number=8, type=1, cpp_type=5, label=1,
+      has_default_value=False, default_value=float(0),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=175,
+  serialized_end=322,
+)
+
+
+_STOCKHISTDAILYSUMMARIES = _descriptor.Descriptor(
+  name='StockHistDailySummaries',
+  full_name='StockHistDailySummaries',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='stock', full_name='StockHistDailySummaries.stock', index=0,
+      number=1, type=11, cpp_type=10, label=1,
+      has_default_value=False, default_value=None,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='daily_summary', full_name='StockHistDailySummaries.daily_summary', index=1,
+      number=2, type=11, cpp_type=10, label=3,
+      has_default_value=False, default_value=[],
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=324,
+  serialized_end=415,
+)
+
+
+_STOCKPOINT = _descriptor.Descriptor(
+  name='StockPoint',
+  full_name='StockPoint',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='stock_index', full_name='StockPoint.stock_index', index=0,
+      number=1, type=5, cpp_type=1, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='stock_price', full_name='StockPoint.stock_price', index=1,
+      number=2, type=1, cpp_type=5, label=1,
+      has_default_value=False, default_value=float(0),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=417,
+  serialized_end=471,
+)
+
+
+_STOCKPOINTS = _descriptor.Descriptor(
+  name='StockPoints',
+  full_name='StockPoints',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='stock_points', full_name='StockPoints.stock_points', index=0,
+      number=1, type=11, cpp_type=10, label=3,
+      has_default_value=False, default_value=[],
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=473,
+  serialized_end=521,
 )
 
 _STOCKSRESPONSE.fields_by_name['stocks'].message_type = _STOCK
+_STOCKHISTDAILYSUMMARIES.fields_by_name['stock'].message_type = _STOCK
+_STOCKHISTDAILYSUMMARIES.fields_by_name['daily_summary'].message_type = _STOCKDAILYSUMMARY
+_STOCKPOINTS.fields_by_name['stock_points'].message_type = _STOCKPOINT
 DESCRIPTOR.message_types_by_name['Stock'] = _STOCK
 DESCRIPTOR.message_types_by_name['StocksResponse'] = _STOCKSRESPONSE
+DESCRIPTOR.message_types_by_name['StockDailySummary'] = _STOCKDAILYSUMMARY
+DESCRIPTOR.message_types_by_name['StockHistDailySummaries'] = _STOCKHISTDAILYSUMMARIES
+DESCRIPTOR.message_types_by_name['StockPoint'] = _STOCKPOINT
+DESCRIPTOR.message_types_by_name['StockPoints'] = _STOCKPOINTS
 _sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 Stock = _reflection.GeneratedProtocolMessageType('Stock', (_message.Message,), {
   'DESCRIPTOR' : _STOCK,
   '__module__' : 'proto.Stock_pb2'
-  # @@protoc_insertion_point(class_scope:database.service.Stock)
+  # @@protoc_insertion_point(class_scope:Stock)
   })
 _sym_db.RegisterMessage(Stock)
 
 StocksResponse = _reflection.GeneratedProtocolMessageType('StocksResponse', (_message.Message,), {
   'DESCRIPTOR' : _STOCKSRESPONSE,
   '__module__' : 'proto.Stock_pb2'
-  # @@protoc_insertion_point(class_scope:database.service.StocksResponse)
+  # @@protoc_insertion_point(class_scope:StocksResponse)
   })
 _sym_db.RegisterMessage(StocksResponse)
+
+StockDailySummary = _reflection.GeneratedProtocolMessageType('StockDailySummary', (_message.Message,), {
+  'DESCRIPTOR' : _STOCKDAILYSUMMARY,
+  '__module__' : 'proto.Stock_pb2'
+  # @@protoc_insertion_point(class_scope:StockDailySummary)
+  })
+_sym_db.RegisterMessage(StockDailySummary)
+
+StockHistDailySummaries = _reflection.GeneratedProtocolMessageType('StockHistDailySummaries', (_message.Message,), {
+  'DESCRIPTOR' : _STOCKHISTDAILYSUMMARIES,
+  '__module__' : 'proto.Stock_pb2'
+  # @@protoc_insertion_point(class_scope:StockHistDailySummaries)
+  })
+_sym_db.RegisterMessage(StockHistDailySummaries)
+
+StockPoint = _reflection.GeneratedProtocolMessageType('StockPoint', (_message.Message,), {
+  'DESCRIPTOR' : _STOCKPOINT,
+  '__module__' : 'proto.Stock_pb2'
+  # @@protoc_insertion_point(class_scope:StockPoint)
+  })
+_sym_db.RegisterMessage(StockPoint)
+
+StockPoints = _reflection.GeneratedProtocolMessageType('StockPoints', (_message.Message,), {
+  'DESCRIPTOR' : _STOCKPOINTS,
+  '__module__' : 'proto.Stock_pb2'
+  # @@protoc_insertion_point(class_scope:StockPoints)
+  })
+_sym_db.RegisterMessage(StockPoints)
 
 
 # @@protoc_insertion_point(module_scope)
