@@ -4,26 +4,26 @@
     <mat-label>
       股票名
     </mat-label>
-    <mat-select (selectionChange)="changeSelection($event)">
-      <span *ngIf="stocks | async as stockOptions">
+    <mat-select (selectionChange)="changeSelectedStock($event)">
+      <span *ngIf="$stocks | async as stockOptions">
         <mat-option *ngFor="let stock of stockOptions" [value]="stock">
           {{stock.full_name}}
         </mat-option>
       </span>
     </mat-select>
   </mat-form-field>
-  <span *ngIf="selectedStock | async as selected">
-    选择了{{selected.full_name}}
-  </span>
-  <span *ngIf="data |async as syncedData">
+  <span *ngIf="googleChartData">
     <google-chart
-      [data]="syncedData"
+      [data]="googleChartData"
       [dynamicResize]="true"
       [options]="chartOptions"
       [columns]="columns"
       style="width: 90vw; height: 60vh;"
       [type]="chartType"
-      title="股票图形"
+      [title]="selectedStock.full_name+' 股票图形'"
     ></google-chart>
+  </span>
+  <span *ngIf="strategyPoints">
+    {{report}}
   </span>
 </span>

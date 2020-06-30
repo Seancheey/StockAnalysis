@@ -1,11 +1,11 @@
 import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import {Stock} from "../service/database-entity/Stock";
-import {Observable, of} from "rxjs";
+import {Observable} from "rxjs";
 import {StockDatabaseService} from "../service/stock-database.service";
 import {MatSelectChange} from "@angular/material/select";
 import {StockDailySummary} from "../service/database-entity/StockDailySummary";
-import {switchMap} from "rxjs/operators";
 import {ChartType, Row} from "angular-google-charts";
+import {StockPoint} from "../service/database-entity/StockPoint";
 
 @Component({
   selector: 'app-stock-viewer',
@@ -13,13 +13,17 @@ import {ChartType, Row} from "angular-google-charts";
   styleUrls: ['./stock-viewer.component.scss']
 })
 export class StockViewerComponent implements OnInit {
-  readonly columns = ["date", "low", "open", "close", "high"]
+  readonly columns = ["date", "低点", "开盘", "收盘", "高点"];
   readonly chartType = ChartType.CandlestickChart;
-  stocks: Observable<Stock[]>;
-  selectedStock: Observable<Stock>;
-  prices: Observable<StockDailySummary[] | null>;
-  data: Observable<Row[]>;
+  $stocks: Observable<Stock[]>;
+  strategyPoints: StockPoint[];
+
+  selectedStock: Stock;
   chartOptions: Object;
+  stockDailyPrices: StockDailySummary[];
+  googleChartData: Row[];
+  report: string;
+
   @Output() selectedStockChange: EventEmitter<Stock | null> = new EventEmitter();
 
   constructor(private stockDatabaseService: StockDatabaseService) {
@@ -29,35 +33,11 @@ export class StockViewerComponent implements OnInit {
     return summaries.map(summary => [summary.date, summary.low, summary.open, summary.close, summary.high]);
   }
 
-  changeSelection(change: MatSelectChange) {
-    this.selectedStockChange.emit(change.value)
+  private static formatDate(date: Date) {
+    return `${date.getFullYear()}年${date.getMonth()}月${date.getDay()}日`
   }
 
-  ngOnInit(): void {
-    this.stocks = this.stockDatabaseService.getStocks()
-    this.prices = this.selectedStockChange.pipe(
-      switchMap((stock) => {
-        if (stock) {
-          return this.stockDatabaseService.getStockDailyHistory(stock)
-        } else {
-          return of(null)
-        }
-      })
-    )
-    this.selectedStock = this.selectedStockChange.pipe(
-      switchMap(stock => {
-        return of(stock)
-      })
-    )
-    this.data = this.prices.pipe(
-      switchMap(prices => {
-        this.chartOptions = this.getChartOption(prices)
-        return of(StockViewerComponent.toGoogleChartData(prices));
-      })
-    )
-  }
-
-  getChartOption(summaries: StockDailySummary[]): Object {
+  private static getChartOption(summaries: StockDailySummary[]): Object {
     console.log("getChartOption");
     return {
       animation: {
@@ -90,5 +70,26 @@ export class StockViewerComponent implements OnInit {
         }
       }
     };
+  }
+
+  changeSelectedStock(change: MatSelectChange) {
+    this.selectedStockChange.emit(change.value)
+  }
+
+  async updateStockChart(stock: Stock) {
+    this.selectedStock = stock;
+    this.stockDailyPrices = await this.stockDatabaseService.getStockDailyHistory(stock).toPromise()
+    this.googleChartData = StockViewerComponent.toGoogleChartData(this.stockDailyPrices)
+    this.chartOptions = StockViewerComponent.getChartOption(this.stockDailyPrices)
+    this.strategyPoints = await this.stockDatabaseService.getStockStrategyPoint(stock).toPromise()
+    this.report = `
+      最高点：${this.strategyPoints[0].price}元
+      第二高点：${this.strategyPoints[1].price}元
+    `
+  }
+
+  ngOnInit(): void {
+    this.$stocks = this.stockDatabaseService.getStocks()
+    this.selectedStockChange.subscribe(stock => this.updateStockChart(stock))
   }
 }
