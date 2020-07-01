@@ -6,7 +6,7 @@ from sqlalchemy import select
 import sched
 
 
-def retrieve_all_history_daily_price(max_req_per_min=500):
+def retrieve_all_history_daily_price(max_req_per_min=499):
     scheduler = sched.scheduler()
     delay = 1 / (max_req_per_min / 60)
     with engine.connect() as connection:
