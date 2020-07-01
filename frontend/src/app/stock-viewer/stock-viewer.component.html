@@ -12,7 +12,7 @@
       </span>
     </mat-select>
   </mat-form-field>
-  <span *ngIf="googleChartData">
+  <span *ngIf="googleChartData&&selectedStock">
     <google-chart
       [data]="googleChartData"
       [dynamicResize]="true"

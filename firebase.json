@@ -15,9 +15,11 @@
     ],
     "rewrites": [
       {
-        "source": "**",
+        "source": "/",
         "destination": "/index.html"
       }
+    ],
+    "redirects": [
     ]
   },
   "storage": {

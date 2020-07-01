@@ -1,6 +1,6 @@
 from functools import wraps
 
-from flask import Flask, request, current_app
+from flask import Flask, request, current_app, jsonify, make_response, Response
 from flask_cors import CORS, cross_origin
 from google.protobuf.json_format import MessageToJson
 
@@ -25,14 +25,12 @@ def support_jsonp(f):
 
 
 @app.route("/get_stocks")
-@support_jsonp
 @cross_origin()
 def get_stocks():
     return MessageToJson(query.get_stocks())
 
 
 @app.route("/get_stock_hist")
-@support_jsonp
 @cross_origin()
 def get_stock_hist():
     code = request.args.get('code')
@@ -44,7 +42,6 @@ def get_stock_hist():
 
 
 @app.route("/get_stock_custom_strategy")
-@support_jsonp
 @cross_origin()
 def get_stock_custom_strategy():
     code = request.args.get('code')

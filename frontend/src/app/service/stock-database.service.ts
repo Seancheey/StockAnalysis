@@ -6,7 +6,6 @@ import {Observable, of} from "rxjs";
 import {switchMap} from "rxjs/operators";
 import {StockDailySummary} from "./database-entity/StockDailySummary";
 import {environment} from "../../environments/environment";
-import {StockPoint} from "./database-entity/StockPoint";
 
 @Injectable({
   providedIn: 'root'
@@ -17,7 +16,7 @@ export class StockDatabaseService {
   }
 
   getStocks(): Observable<Stock[]> {
-    return this.httpClient.jsonp(`${environment.server_url}/get_stocks`, "callback").pipe(
+    return this.httpClient.get(`${environment.server_url}/get_stocks`).pipe(
       switchMap(obj => {
         const stocks: Stock[] = []
         for (let stock of obj["stocks"]) {
@@ -29,7 +28,7 @@ export class StockDatabaseService {
   }
 
   getStockDailyHistory(stock: Stock): Observable<StockDailySummary[]> {
-    return this.httpClient.jsonp(`${environment.server_url}/get_stock_hist?exchange=${stock.exchange}&code=${stock.code}`, "callback").pipe(
+    return this.httpClient.get(`${environment.server_url}/get_stock_hist?exchange=${stock.exchange}&code=${stock.code}`).pipe(
       switchMap(obj => {
         const summaries: StockDailySummary[] = []
         for (let summary of obj["dailySummary"]) {
@@ -48,11 +47,11 @@ export class StockDatabaseService {
     )
   }
 
-  getStockStrategyPoint(stock: Stock): Observable<StockPoint[]> {
-    return this.httpClient.jsonp(`${environment.server_url}/get_stock_custom_strategy?exchange=${stock.exchange}&code=${stock.code}`, "callback").pipe(
-      switchMap(obj => {
-        return of(obj["stockPoints"].map(sub => new StockPoint(sub["stockIndex"], sub["stockPrice"])));
-      })
-    );
-  }
+  // getStockStrategyPoint(stock: Stock): Observable<StockPoint[]> {
+  //   return this.httpClient.jsonp(`${environment.server_url}/get_stock_custom_strategy?exchange=${stock.exchange}&code=${stock.code}`, "callback").pipe(
+  //     switchMap(obj => {
+  //       return of(obj["stockPoints"].map(sub => new StockPoint(sub["stockIndex"], sub["stockPrice"])));
+  //     })
+  //   );
+  // }
 }

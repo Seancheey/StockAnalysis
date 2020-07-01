@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  server_url: "http://127.0.0.1:5000"
+  server_url: "https://qi1.co:5000"
 };
 
 /*
