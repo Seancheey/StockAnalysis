@@ -11,11 +11,13 @@ import {StockDatabaseService} from "./service/stock-database.service";
 import {HttpClientJsonpModule, HttpClientModule} from "@angular/common/http";
 import {StockViewerComponent} from './stock-viewer/stock-viewer.component';
 import {GoogleChartsModule} from "angular-google-charts";
+import {StockChartComponent} from './stock-chart/stock-chart.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     StockViewerComponent,
+    StockChartComponent,
   ],
   imports: [
     BrowserModule,

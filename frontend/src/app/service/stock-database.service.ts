@@ -29,21 +29,23 @@ export class StockDatabaseService {
 
   getStockDailyHistory(stock: Stock): Observable<StockDailySummary[]> {
     return this.httpClient.get(`${environment.server_url}/get_stock_hist?exchange=${stock.exchange}&code=${stock.code}`).pipe(
-      switchMap(obj => {
-        const summaries: StockDailySummary[] = []
-        for (let summary of obj["dailySummary"]) {
-          summaries.push(new StockDailySummary(
-            new Date(summary["date"] * 1000),
-            summary["open"],
-            summary["close"],
-            summary["high"],
-            summary["low"],
-            summary["volume"],
-            summary["turnover"],
-          ))
-        }
-        return of(summaries)
-      })
+      switchMap(obj =>
+        of(obj["dailySummary"]
+            .map(summary =>
+              new StockDailySummary(
+                new Date(summary["date"] * 1000),
+                summary["open"],
+                summary["close"],
+                summary["high"],
+                summary["low"],
+                summary["volume"],
+                summary["turnover"],
+              ))
+          // .sort((a, b) =>
+          //   a.date.getTime() - b.data.getTime()
+          // )
+        )
+      )
     )
   }
 

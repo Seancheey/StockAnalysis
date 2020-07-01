@@ -1,0 +1,9 @@
+<google-chart *ngIf="chartOptions && googleChartData"
+              [columns]="columns"
+              [data]="googleChartData"
+              [dynamicResize]="true"
+              [options]="chartOptions"
+              [title]="title"
+              [type]="chartType"
+              style="width: 95vw; height: 60vh;"
+></google-chart>

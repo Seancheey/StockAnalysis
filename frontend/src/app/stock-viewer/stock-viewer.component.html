@@ -1,9 +1,14 @@
 <span class="main-content">
   <h4>选择股票</h4>
   <mat-form-field>
-    <mat-label>
-      股票名
+    <mat-label *ngIf="$stocks | async; else waiting">
+      选择股票名
     </mat-label>
+    <ng-template #waiting>
+      <mat-label>
+        正在获取股票信息...
+      </mat-label>
+    </ng-template>
     <mat-select (selectionChange)="changeSelectedStock($event)">
       <span *ngIf="$stocks | async as stockOptions">
         <mat-option *ngFor="let stock of stockOptions" [value]="stock">
@@ -12,16 +17,9 @@
       </span>
     </mat-select>
   </mat-form-field>
-  <span *ngIf="googleChartData&&selectedStock">
-    <google-chart
-      [data]="googleChartData"
-      [dynamicResize]="true"
-      [options]="chartOptions"
-      [columns]="columns"
-      style="width: 90vw; height: 60vh;"
-      [type]="chartType"
-      [title]="selectedStock.full_name+' 股票图形'"
-    ></google-chart>
+  <span *ngIf="selectedStock">
+    <app-stock-chart [stockDailyPrices$]="stockDailyPrices$"
+                     [title]="selectedStock.full_name+' 股票图形'"></app-stock-chart>
   </span>
   <span *ngIf="highestPoint">
     最高点{{highestPoint.high}}元 {{formatDate(highestPoint.date)}}
