@@ -12,7 +12,7 @@ import {StockChartComponent} from "../stock-chart/stock-chart.component";
   styleUrls: ['./stock-viewer.component.scss']
 })
 export class StockViewerComponent implements OnInit {
-  $stocks: Observable<Stock[]>;
+  stocks$: Observable<Stock[]>;
 
   stockDailyPrices$: Observable<StockDailySummary[]>;
   highestPoint: StockDailySummary;
@@ -28,12 +28,13 @@ export class StockViewerComponent implements OnInit {
   private static getHighAndSecondHigh(summaries: StockDailySummary[]): [StockDailySummary, StockDailySummary] {
     const highestPoint = summaries.reduce((a, b) => a.high > b.high ? a : b)
     let sortedRestData = summaries
-      .filter(val => val.date > highestPoint.date)
-      .sort((a, b) => b.date.getTime() - a.date.getTime())
+      .filter(val => val.date.getTime() > highestPoint.date.getTime())
+      .sort((a, b) => a.date.getTime() - b.date.getTime())
 
     for (let i = 1; i < sortedRestData.length - 1; i = i + 1) {
       if (sortedRestData[i].high > sortedRestData[i - 1].high) {
         sortedRestData = sortedRestData.splice(i - sortedRestData.length)
+        break;
       }
     }
     const secondHighestPoint = sortedRestData.reduce((a, b) => a.high > b.high ? a : b)
@@ -59,7 +60,7 @@ export class StockViewerComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.$stocks = this.stockDatabaseService.getStocks()
+    this.stocks$ = this.stockDatabaseService.getStocks()
     this.selectedStockChange.subscribe(stock => this.updateStockChart(stock))
   }
 }
