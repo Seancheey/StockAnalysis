@@ -5,3 +5,4 @@ sqlalchemy
 cryptography
 flask
 google
+flask-cors
