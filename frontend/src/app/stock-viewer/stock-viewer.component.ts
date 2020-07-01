@@ -1,6 +1,6 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {Stock} from "../service/database-entity/Stock";
-import {Observable} from "rxjs";
+import {Observable, Subject} from "rxjs";
 import {StockDatabaseService} from "../service/stock-database.service";
 import {MatSelectChange} from "@angular/material/select";
 import {StockDailySummary} from "../service/database-entity/StockDailySummary";
@@ -13,11 +13,10 @@ import {StockChartComponent} from "../stock-chart/stock-chart.component";
 })
 export class StockViewerComponent implements OnInit {
   stocks$: Observable<Stock[]>;
+  readonly stockDailyPrices$: Subject<StockDailySummary[]> = new Subject<StockDailySummary[]>();
 
-  stockDailyPrices$: Observable<StockDailySummary[]>;
   highestPoint: StockDailySummary;
   secondHighestPoint: StockDailySummary;
-
 
   @Input() selectedStock: Stock;
   @Output() selectedStockChange: EventEmitter<Stock | null> = new EventEmitter();
@@ -45,14 +44,13 @@ export class StockViewerComponent implements OnInit {
     return StockChartComponent.formatDate(date)
   }
 
-  updateStockChart(stock: Stock) {
+  async updateStockChart(stock: Stock) {
     this.selectedStock = stock;
-    this.stockDailyPrices$ = this.stockDatabaseService.getStockDailyHistory(stock)
-    this.stockDailyPrices$.subscribe(prices => {
-      const list = StockViewerComponent.getHighAndSecondHigh(prices)
-      this.highestPoint = list[0]
-      this.secondHighestPoint = list[1]
-    });
+    const prices = await this.stockDatabaseService.getStockDailyHistory(stock).toPromise();
+    this.stockDailyPrices$.next(prices);
+    const list = StockViewerComponent.getHighAndSecondHigh(prices)
+    this.highestPoint = list[0]
+    this.secondHighestPoint = list[1]
   }
 
   changeSelectedStock(change: MatSelectChange) {
