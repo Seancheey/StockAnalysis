@@ -19,13 +19,14 @@ def get_stocks() -> StocksResponse:
 
 def __get_stock_sql(exchange: str, code: str, limit: int):
     sql = select([DailyPriceSummaries.__table__]).where(
-        DailyPriceSummaries.code == code and DailyPriceSummaries.exchange == exchange)
+        DailyPriceSummaries.code == code and DailyPriceSummaries.exchange == exchange).order_by(
+        DailyPriceSummaries.date.desc())
     if limit > 0:
         sql = sql.limit(limit)
     return sql
 
 
-def get_stock_daily_history(exchange: str, code: str, limit=300) -> StockHistDailySummaries:
+def get_stock_daily_history(exchange: str, code: str, limit=1000) -> StockHistDailySummaries:
     result = engine.execute(__get_stock_sql(exchange, code, limit))
     response = StockHistDailySummaries(stock=Stock(code=code, exchange=exchange))
     for col in result:
