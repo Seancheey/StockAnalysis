@@ -23,10 +23,11 @@
                           [title]="selectedStock.full_name+' 股票图形'">
     </app-stock-chart-line>
   </span>
-  <span *ngIf="highestPoint">
-    最高点{{highestPoint.high}}元 {{formatDate(highestPoint.date)}}
+  <span *ngIf="highToSecondHighDrawer.highestPoint">
+    最高点{{highToSecondHighDrawer.highestPoint.high}}元 {{formatDate(highToSecondHighDrawer.highestPoint.date)}}
   </span>
-  <span *ngIf="secondHighestPoint">
-    第二高点{{secondHighestPoint.high}}元 {{formatDate(secondHighestPoint.date)}}
+  <span *ngIf="highToSecondHighDrawer.secondHighestPoint">
+    第二高点{{highToSecondHighDrawer.secondHighestPoint.high}}
+    元 {{formatDate(highToSecondHighDrawer.secondHighestPoint.date)}}
   </span>
 </span>

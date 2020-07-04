@@ -3,9 +3,9 @@ import {StockDailySummary} from "../service/database-entity/StockDailySummary";
 
 export class HighToSecondHighDrawer extends StockFunctionDrawer {
   readonly functionName: string = "最高-次高点连线";
-  private highestPoint: StockDailySummary;
-  private secondHighestPoint: StockDailySummary;
-  private lowestPoint: StockDailySummary;
+  highestPoint: StockDailySummary;
+  secondHighestPoint: StockDailySummary;
+  lowestPoint: StockDailySummary;
   private delta: number;
 
   initialize() {

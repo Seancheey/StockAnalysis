@@ -16,30 +16,13 @@ import {HighToSecondHighDrawer} from "../stock-function-drawers/high-to-second-h
 export class StockViewerComponent implements OnInit {
   stocks$: Observable<Stock[]>;
   readonly stockDailyPrices$: Subject<StockDailySummary[]> = new Subject<StockDailySummary[]>();
-  readonly stockFunctionDrawers: StockFunctionDrawer[] = [new HighToSecondHighDrawer()];
-  highestPoint: StockDailySummary;
-  secondHighestPoint: StockDailySummary;
+  readonly highToSecondHighDrawer = new HighToSecondHighDrawer();
+  readonly stockFunctionDrawers: StockFunctionDrawer[] = [this.highToSecondHighDrawer];
 
   @Input() selectedStock: Stock;
   @Output() selectedStockChange: EventEmitter<Stock | null> = new EventEmitter();
 
   constructor(private stockDatabaseService: StockDatabaseService) {
-  }
-
-  private static getHighAndSecondHigh(summaries: StockDailySummary[]): [StockDailySummary, StockDailySummary] {
-    const highestPoint = summaries.reduce((a, b) => a.high > b.high ? a : b)
-    let sortedRestData = summaries
-      .filter(val => val.date.getTime() > highestPoint.date.getTime())
-      .sort((a, b) => a.date.getTime() - b.date.getTime())
-
-    for (let i = 1; i < sortedRestData.length - 1; i = i + 1) {
-      if (sortedRestData[i].high > sortedRestData[i - 1].high) {
-        sortedRestData = sortedRestData.splice(i - sortedRestData.length)
-        break;
-      }
-    }
-    const secondHighestPoint = sortedRestData.reduce((a, b) => a.high > b.high ? a : b)
-    return [highestPoint, secondHighestPoint]
   }
 
   formatDate(date: Date) {
@@ -50,9 +33,6 @@ export class StockViewerComponent implements OnInit {
     this.selectedStock = stock;
     const prices = await this.stockDatabaseService.getStockDailyHistory(stock).toPromise();
     this.stockDailyPrices$.next(prices);
-    const list = StockViewerComponent.getHighAndSecondHigh(prices)
-    this.highestPoint = list[0]
-    this.secondHighestPoint = list[1]
   }
 
   changeSelectedStock(change: MatSelectChange) {
