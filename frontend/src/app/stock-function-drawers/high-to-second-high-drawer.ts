@@ -5,6 +5,7 @@ export class HighToSecondHighDrawer extends StockFunctionDrawer {
   readonly functionName: string = "最高-次高点连线";
   private highestPoint: StockDailySummary;
   private secondHighestPoint: StockDailySummary;
+  private lowestPoint: StockDailySummary;
   private delta: number;
 
   initialize() {
@@ -21,11 +22,16 @@ export class HighToSecondHighDrawer extends StockFunctionDrawer {
     }
     this.secondHighestPoint = sortedRestData.reduce((a, b) => a.high > b.high ? a : b)
     this.delta = (this.secondHighestPoint.high - this.highestPoint.high) / (this.secondHighestPoint.date.getTime() - this.highestPoint.date.getTime())
+    this.lowestPoint = this.stockDailySummaries.reduce((a, b) => a.low > b.low ? b : a);
   }
 
   draw(date: Date): number {
-    if (this.highestPoint && date.getTime() > this.highestPoint.date.getTime()) {
-      return this.delta * (date.getTime() - this.highestPoint.date.getTime()) + this.highestPoint.high
+    if (!this.highestPoint) {
+      return undefined;
+    }
+    const value = this.delta * (date.getTime() - this.highestPoint.date.getTime()) + this.highestPoint.high;
+    if (date.getTime() > this.highestPoint.date.getTime() && value >= this.lowestPoint.low) {
+      return value
     }
     return undefined;
   }
