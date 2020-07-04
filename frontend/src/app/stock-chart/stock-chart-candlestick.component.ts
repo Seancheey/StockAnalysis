@@ -9,26 +9,17 @@ import {StockDailySummary} from "../service/database-entity/StockDailySummary";
   styleUrls: ['./stock-chart.component.scss']
 })
 export class StockChartCandlestickComponent extends StockChartComponent {
-  readonly columns: google.visualization.ColumnSpec[] = [
-    {type: "date", label: "日期"},
-    {type: "number", label: "低点"},
-    {type: "number", label: "开盘"},
-    {type: "number", label: "收盘"},
-    {type: "number", label: "高点"},
-    {type: "string", role: "tooltip"}
-  ];
   readonly chartType: ChartType = ChartType.CandlestickChart;
-  chartOptions: Object;
 
-  generateChartData(prices: StockDailySummary[]): Row[] {
-    return prices.map(summary => [
-      summary.date,
-      summary.low,
-      summary.open,
-      summary.close,
-      summary.high,
-      this.formatSummary(summary)
-    ]);
+  generateChartData(price: StockDailySummary): Row {
+    return [
+      price.date,
+      price.low,
+      price.open,
+      price.close,
+      price.high,
+      this.formatSummary(price)
+    ];
   }
 
   getChartOption(summaries: StockDailySummary[]): Object {
@@ -67,6 +58,17 @@ export class StockChartCandlestickComponent extends StockChartComponent {
       },
       legend: 'none'
     };
+  }
+
+  getColumns(): google.visualization.ColumnSpec[] {
+    return [
+      {type: "date", label: "日期"},
+      {type: "number", label: "低点"},
+      {type: "number", label: "开盘"},
+      {type: "number", label: "收盘"},
+      {type: "number", label: "高点"},
+      {type: "string", role: "tooltip"}
+    ];
   }
 
 }

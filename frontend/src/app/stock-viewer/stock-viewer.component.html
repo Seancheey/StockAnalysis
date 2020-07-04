@@ -19,7 +19,9 @@
   </mat-form-field>
   <span *ngIf="selectedStock">
     <app-stock-chart-line [stockDailyPrices$]="stockDailyPrices$"
-                          [title]="selectedStock.full_name+' 股票图形'"></app-stock-chart-line>
+                          [stockFunctionDrawers]="stockFunctionDrawers"
+                          [title]="selectedStock.full_name+' 股票图形'">
+    </app-stock-chart-line>
   </span>
   <span *ngIf="highestPoint">
     最高点{{highestPoint.high}}元 {{formatDate(highestPoint.date)}}

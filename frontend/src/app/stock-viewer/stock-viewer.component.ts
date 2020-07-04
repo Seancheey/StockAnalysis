@@ -5,6 +5,8 @@ import {StockDatabaseService} from "../service/stock-database.service";
 import {MatSelectChange} from "@angular/material/select";
 import {StockDailySummary} from "../service/database-entity/StockDailySummary";
 import {StockChartComponent} from "../stock-chart/stock-chart.component";
+import {StockFunctionDrawer} from "../stock-function-drawers/stock-function-drawer";
+import {HighToSecondHighDrawer} from "../stock-function-drawers/high-to-second-high-drawer";
 
 @Component({
   selector: 'app-stock-viewer',
@@ -14,7 +16,7 @@ import {StockChartComponent} from "../stock-chart/stock-chart.component";
 export class StockViewerComponent implements OnInit {
   stocks$: Observable<Stock[]>;
   readonly stockDailyPrices$: Subject<StockDailySummary[]> = new Subject<StockDailySummary[]>();
-
+  readonly stockFunctionDrawers: StockFunctionDrawer[] = [new HighToSecondHighDrawer()];
   highestPoint: StockDailySummary;
   secondHighestPoint: StockDailySummary;
 

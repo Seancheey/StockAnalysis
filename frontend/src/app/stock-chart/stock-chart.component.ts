@@ -2,26 +2,40 @@ import {Input, OnInit} from '@angular/core';
 import {ChartType, Row} from "angular-google-charts";
 import {StockDailySummary} from "../service/database-entity/StockDailySummary";
 import {Observable} from "rxjs";
+import {StockFunctionDrawer} from "../stock-function-drawers/stock-function-drawer";
 
 export abstract class StockChartComponent implements OnInit {
-  readonly abstract columns: google.visualization.ColumnSpec[] = [];
-  readonly abstract chartType: ChartType = ChartType.LineChart;
-  abstract chartOptions: Object;
-
+  columns: google.visualization.ColumnSpec[] = [];
+  chartOptions: Object;
+  googleChartData: Row[];
   @Input() title: string = "";
   @Input() stockDailyPrices$: Observable<StockDailySummary[]>;
-  @Input() lineFunctions: Record<string, ((StockDailySummary) => Row)> = {};
-  googleChartData: Row[];
+  @Input() stockFunctionDrawers: StockFunctionDrawer[];
 
-  abstract generateChartData(prices: StockDailySummary[]): Row[];
+  readonly abstract chartType: ChartType = ChartType.LineChart;
+
+  abstract generateChartData(price: StockDailySummary): Row;
 
   abstract getChartOption(summaries: StockDailySummary[]): Object;
 
+  abstract getColumns(): google.visualization.ColumnSpec[];
+
   ngOnInit(): void {
     this.stockDailyPrices$.subscribe(prices => {
-      this.googleChartData = this.generateChartData(prices)
+      this.stockFunctionDrawers.forEach(drawer => {
+        drawer.load(prices)
+      })
+      this.googleChartData = prices.map(price => {
+        return this.generateChartData(price).concat(
+          this.stockFunctionDrawers.map(drawer => drawer.draw(price.date))
+        )
+      })
       this.chartOptions = this.getChartOption(prices)
     })
+    this.columns = this.getColumns().concat(this.stockFunctionDrawers.map(drawer => {
+        return {type: "number", label: drawer.functionName}
+      }
+    ))
   }
 
   static formatDate(date) {

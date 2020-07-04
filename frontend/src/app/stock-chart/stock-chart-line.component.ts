@@ -9,20 +9,19 @@ import {Component} from "@angular/core";
   styleUrls: ['./stock-chart.component.scss']
 })
 export class StockChartLineComponent extends StockChartComponent {
-  chartOptions: Object;
-  readonly chartType: ChartType = ChartType.LineChart;
-  readonly columns: google.visualization.ColumnSpec[] = [
-    {type: "date", label: "日期"},
-    {type: "number", label: "低点"},
-    {type: "number", label: "高点"}
-  ];
 
-  generateChartData(prices: StockDailySummary[]): Row[] {
-    return prices.map(summary => [
-      summary.date,
-      summary.low,
-      summary.high
-    ]);
+  readonly chartType: ChartType = ChartType.LineChart;
+
+  getColumns(): google.visualization.ColumnSpec[] {
+    return [
+      {type: "date", label: "日期"},
+      {type: "number", label: "低点"},
+      {type: "number", label: "高点"}
+    ];
+  }
+
+  generateChartData(price: StockDailySummary): Row {
+    return [price.date, price.low, price.high]
   }
 
   getChartOption(summaries: StockDailySummary[]): Object {
