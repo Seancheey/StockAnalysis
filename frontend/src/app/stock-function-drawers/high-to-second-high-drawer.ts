@@ -30,7 +30,7 @@ export class HighToSecondHighDrawer extends StockFunctionDrawer {
       return undefined;
     }
     const value = this.delta * (date.getTime() - this.highestPoint.date.getTime()) + this.highestPoint.high;
-    if (date.getTime() > this.highestPoint.date.getTime() && value >= this.lowestPoint.low) {
+    if (date.getTime() >= this.highestPoint.date.getTime() && value >= this.lowestPoint.low) {
       return value
     }
     return undefined;
