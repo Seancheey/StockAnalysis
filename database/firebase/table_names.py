@@ -1,0 +1,1 @@
+STOCKS_COLLECTION = "stocks"

@@ -6,3 +6,4 @@ cryptography
 flask
 google
 flask-cors
+firebase-admin
